@@ -12,7 +12,7 @@
     />
 
   </head>
-  <body>
+  <body class="container">
     <div class="modal fade" id="modalDescripcion" tabindex="-1" aria-labelledby="exampleModalLabel" >
       <div class="modal-dialog">
         <div class="modal-content">
@@ -30,7 +30,20 @@
         </div>
       </div>
     </div>
-    <h1 class="container">Productos</h1>
+
+    <h1 >Productos</h1>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-warning">Categorias</button>
+      <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        
+      </button>
+      <ul class="dropdown-menu" id="ulMenu">
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" style="cursor: pointer;" onclick="getData();">Todas</a></li>
+      </ul>
+    </div>
+    
     <main class="container d-flex flex-wrap">
       <!-- Modal -->
  

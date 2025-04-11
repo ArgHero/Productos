@@ -1,18 +1,22 @@
 const main = document.getElementsByTagName("main").item(0);
 const modalTitulo = document.getElementById("modalTitulo");
 const modalBody = document.getElementsByClassName("modal-body").item(0);
+const ulMenu = document.getElementById("ulMenu");
 //main.style.display="flex";
 //La diagonal al final es importante.
 const URLmain = "https://fakestoreapi.com/products/";
 //Obtener datos
 getData();
+//Rellena el botón de categorías
+getCategories();
 
-function getData() {
+function getData(cat="") {
   const options = { method: "GET" };
-  fetch(URLmain, options) // crea una promesa que de cumplirse genera un objeto de tipo response
+  fetch(URLmain+cat, options) // crea una promesa que de cumplirse genera un objeto de tipo response
     .then((response) => {
       //json(): Regresa otra promesa ya que no sabemos cuánto tardará en convertir
       response.json().then((res) => {
+        main.innerHTML="";
         res.forEach(createCards);
       });
     })//then
@@ -71,3 +75,29 @@ function modalProducto(event) {
     .item(0)
     .innerText.trim();
 };//modalProducto
+
+function getCategories() {
+  const options = { "method": "GET" };
+  fetch(URLmain+"categories/", options) // crea una promesa que de cumplirse genera un objeto de tipo response
+    .then((response) => {
+      //json(): Regresa otra promesa ya que no sabemos cuánto tardará en convertir
+      response.json().then((res) => {
+        res.forEach(cat=>{
+          ulMenu.insertAdjacentHTML("afterbegin",`
+              <li><a class="dropdown-item" style="cursor: pointer;" onclick="getData('category/${cat.replace("'","%27")}');">${cat}</a></li>
+            `);
+        });//foreach
+      });
+    })//then
+    .catch((err) => {
+      // La promesa no se cumple y lanza el error.
+      main.insertAdjacentElement(
+        "beforeend",
+            `
+            <div class="alert alert-danger" role="alert">
+              ${err.message}
+            </div>
+            `
+      );
+    })//catch;
+} //getCategories
